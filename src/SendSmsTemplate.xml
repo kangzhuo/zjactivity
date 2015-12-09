@@ -1,0 +1,18 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soapenv:Body>
+        <addTask xmlns="http://server.mmap.msp.huawei.com">
+            <in0>
+                <ns1:content xmlns:ns1="http://domain.server.mmap.msp.huawei.com">CODE~$CODE</ns1:content>
+                <ns2:mediaType xmlns:ns2="http://domain.server.mmap.msp.huawei.com">1014001</ns2:mediaType>
+                <ns3:receiverInfo xmlns:ns3="http://domain.server.mmap.msp.huawei.com">$BILLID</ns3:receiverInfo>
+                <ns4:reserve21 xmlns:ns4="http://domain.server.mmap.msp.huawei.com">0019</ns4:reserve21>
+                <ns5:reserve22 xmlns:ns5="http://domain.server.mmap.msp.huawei.com">手机营业厅平台</ns5:reserve22>
+                <ns6:reserve23 xmlns:ns6="http://domain.server.mmap.msp.huawei.com">00190001</ns6:reserve23>
+                <ns7:reserve24 xmlns:ns7="http://domain.server.mmap.msp.huawei.com">临时密码类</ns7:reserve24>
+                <ns8:reserve25 xmlns:ns8="http://domain.server.mmap.msp.huawei.com">1449454994539</ns8:reserve25>
+                <ns9:schduleTime xmlns:ns9="http://domain.server.mmap.msp.huawei.com">2015-12-09T11:00:16.937Z</ns9:schduleTime>
+                <ns10:sendNo xmlns:ns10="http://domain.server.mmap.msp.huawei.com">10086</ns10:sendNo>
+            </in0>
+        </addTask>
+    </soapenv:Body>
+</soapenv:Envelope>

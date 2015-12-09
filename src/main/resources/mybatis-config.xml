@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="production">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mysql://127.0.0.1:3306/sdk?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" />
+				<property name="username" value="root" />
+				<property name="password" value="" />
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="poolPingQuery" value="select now() " />
+                <property name="poolPingEnabled" value="true"/>
+                <property name="poolPingConnectionsNotUsedFor" value="1000"/>
+			</dataSource>
+		</environment>
+        <environment id="production">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url"
+                          value="jdbc:mysql://mysql.flow:3306/Interface?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" />
+                <property name="username" value="seek" />
+                <property name="password" value="cX35Ca3d]*2" />
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="poolMaximumIdleConnections" value="20" />
+                <property name="poolPingQuery" value="select now() " />
+                <property name="poolPingEnabled" value="true"/>
+                <property name="poolPingConnectionsNotUsedFor" value="1000"/>
+            </dataSource>
+        </environment>
+        <environment id="sandbox">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url"
+                          value="jdbc:mysql://mysql.trioly.local:3306/Interface?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" />
+                <property name="username" value="root" />
+                <property name="password" value="mysqlzjseek123456789" />
+                <property name="poolMaximumActiveConnections" value="6" />
+                <property name="poolMaximumIdleConnections" value="6" />
+            </dataSource>
+        </environment>
+	</environments>
+	<mappers>
+        <mapper resource="com/trioly/dao/TestMapper.xml" />
+        <mapper resource="com/trioly/dao/DataDealOneResult.xml" />
+	</mappers>
+</configuration>
