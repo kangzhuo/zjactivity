@@ -31,6 +31,7 @@ public class InitData {
             while ((l_strtemp = l_reader.readLine()) != null) {
                 l_map.put(l_strtemp, "");
             }
+            l_reader.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,7 +62,7 @@ public class InitData {
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
                 if (l_strtemp.contains("RMZSFile:")) {
-                    l_strRMZSFile = l_strtemp.substring(8, l_strtemp.length());
+                    l_strRMZSFile = l_strtemp.substring(9, l_strtemp.length());
                     l_strRMZSFile = l_strRMZSFile.trim();
                 }
             }
@@ -76,6 +77,7 @@ public class InitData {
 
                 l_map.put(l_strLines[0], l_strLines[1]);
             }
+            l_reader.close();
 
         } catch (IOException e) {
             e.printStackTrace();
