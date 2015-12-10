@@ -16,7 +16,7 @@ public class DataDealToDB {
         try{
             //连接MySql数据库
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true ;characterEncoding=UTF-8 ;zeroDateTimeBehavior=convertToNull ;transformedBitIsBoolean=true" ;
+            String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" ;
             String username = "root" ;
             String password = "" ;
             g_conn = DriverManager.getConnection(url , username , password ) ;
@@ -62,8 +62,8 @@ public class DataDealToDB {
                 if (l_strLines.length < 2)
                     continue;
 
-                if (g_map.containsKey(l_strLines[0])) {
-                    l_strValue = g_map.get(l_strLines[0]);
+                if (g_map.containsKey(l_strLines[1])) {
+                    l_strValue = g_map.get(l_strLines[1]);
                 } else {
                     l_strValue = "76%";
                 }
@@ -187,25 +187,26 @@ public class DataDealToDB {
                     int l_iThree = rs.getInt("three");
                     int l_iFour = rs.getInt("four");
                     int l_iFive = rs.getInt("five");
-                    int l_iOneTmp = l_iOne + Integer.parseInt(l_strLines[0]);
-                    int l_iTwoTmp = l_iTwo + Integer.parseInt(l_strLines[1]);
-                    int l_iThreeTmp = l_iThree + Integer.parseInt(l_strLines[2]);
-                    int l_iFourTmp = l_iFour + Integer.parseInt(l_strLines[3]);
-                    int l_iFiveTmp = l_iFive + Integer.parseInt(l_strLines[4]);
+                    int l_iOneTmp = l_iOne + Integer.parseInt(l_strLines[1]);
+                    int l_iTwoTmp = l_iTwo + Integer.parseInt(l_strLines[2]);
+                    int l_iThreeTmp = l_iThree + Integer.parseInt(l_strLines[3]);
+                    int l_iFourTmp = l_iFour + Integer.parseInt(l_strLines[4]);
+                    int l_iFiveTmp = l_iFive + Integer.parseInt(l_strLines[5]);
 
                     l_stmtUpd.setInt(1, l_iOneTmp);
-                    l_stmtUpd.setInt(1, l_iTwoTmp);
-                    l_stmtUpd.setInt(1, l_iThreeTmp);
-                    l_stmtUpd.setInt(1, l_iFourTmp);
-                    l_stmtUpd.setInt(1, l_iFiveTmp);
-                    l_stmtUpd.setString(1, l_strLines[0]);
+                    l_stmtUpd.setInt(2, l_iTwoTmp);
+                    l_stmtUpd.setInt(3, l_iThreeTmp);
+                    l_stmtUpd.setInt(4, l_iFourTmp);
+                    l_stmtUpd.setInt(5, l_iFiveTmp);
+                    l_stmtUpd.setString(6, l_strLines[0]);
                     l_stmtUpd.executeUpdate();
                 } else {
+                    l_stmtIns.setString(1, l_strLines[0]);
                     l_stmtIns.setString(2, l_strLines[1]);
                     l_stmtIns.setString(3, l_strLines[2]);
-                    l_stmtIns.setString(3, l_strLines[3]);
-                    l_stmtIns.setString(3, l_strLines[4]);
-                    l_stmtIns.setString(3, l_strLines[5]);
+                    l_stmtIns.setString(4, l_strLines[3]);
+                    l_stmtIns.setString(5, l_strLines[4]);
+                    l_stmtIns.setString(6, l_strLines[5]);
                     l_stmtIns.executeUpdate();
                 }
 
