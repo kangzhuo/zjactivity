@@ -83,12 +83,12 @@ public class DataDealForTwo {
             return "";
 
         //移除主号码非浙江移动号码
-        if (11 != l_strLines[0].length()) {
+        if (32 != l_strLines[0].length()) {
             return "";
         }
-        if (!g_map.containsKey(l_strLines[0].substring(0,7))) {
-            return "";
-        }
+        //if (!g_map.containsKey(l_strLines[0].substring(0,7))) {
+        //    return "";
+        //}
 
         //计算总次数
         int l_iTmp = Integer.parseInt(l_strLines[2]) + Integer.parseInt(l_strLines[3]);
@@ -102,17 +102,17 @@ public class DataDealForTwo {
         }
 
         //移除副号码非浙江移动号码
-        if (11 != l_strLines[1].length()) {
+        if (32 != l_strLines[1].length()) {
             return "";
         }
-        if (!g_map.containsKey(l_strLines[1].substring(0,7))) {
-            return "";
-        }
+        //if (!g_map.containsKey(l_strLines[1].substring(0,7))) {
+        //    return "";
+        //}
 
         //2个号码间重复记录只保留一个
-        if (0 < l_strLines[0].compareTo(l_strLines[1])) {
-            return "";
-        }
+        //if (0 < l_strLines[0].compareTo(l_strLines[1])) {
+        //    return "";
+        //}
 
         //手机号码加密
         //l_str1 = token(l_strLines[0]);
@@ -134,7 +134,12 @@ public class DataDealForTwo {
         else
             l_str3 = "5";
 
-        return l_str1 + "," + l_str2 + "," + l_str3 + "\n";
+        double l_dZJ = Double.parseDouble(l_strLines[2]);
+        double l_dBJ = Double.parseDouble(l_strLines[3]);
+        double l_dDB= (l_dZJ/(l_dZJ+l_dBJ))*100;
+        int l_iDB = (int)l_dDB;
+
+        return l_str1 + "," + l_str2 + "," + l_str3 + "," + l_iDB + "\n";
     }
 
     public  static void sumRelationNum (String p_strPhoneNum, int p_iRelationNum) {
@@ -189,7 +194,7 @@ public class DataDealForTwo {
 
             //容量大于14000条写文件
             if (g_mapRelationNum.size() > 14000)
-                writeRelationNum ();
+                writeRelationNum();
         }
     }
 
@@ -203,6 +208,9 @@ public class DataDealForTwo {
                 l_writer.write(entry.getKey() + "," + entry.getValue() + "\n");
             }
             l_writer.close();
+
+            //清空MAP
+            g_mapRelationNum.clear();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

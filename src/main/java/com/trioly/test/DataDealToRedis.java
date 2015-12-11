@@ -3,6 +3,7 @@ package com.trioly.test;
 import com.trioly.util.RedisUtil;
 import redis.clients.jedis.Jedis;
 
+import java.io.*;
 import java.sql.*;
 
 public class DataDealToRedis {
@@ -14,7 +15,7 @@ public class DataDealToRedis {
         try{
             //连接MySql数据库
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true ;characterEncoding=UTF-8 ;zeroDateTimeBehavior=convertToNull ;transformedBitIsBoolean=true" ;
+            String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" ;
             String username = "root" ;
             String password = "" ;
             g_conn = DriverManager.getConnection(url, username, password) ;
@@ -25,8 +26,10 @@ public class DataDealToRedis {
 
         if (l_strDealType.compareTo("1") == 0) {
             oneToRedis();
-        } else {
+        } else if (l_strDealType.compareTo("2") == 0) {
             twoToRedis();
+        } else {
+            hlrToRedis();
         }
 
         //关闭连接对象
@@ -57,10 +60,21 @@ public class DataDealToRedis {
             String l_strFive = rs.getString("five");
 
             String l_strValue = l_strRmzs + "|" + l_strPm + "|" + l_strOne + "|" + l_strTwo + "|" + l_strThree + "|" + l_strFour + "|" + l_strFive;
-
-            Jedis jedis = RedisUtil.getInstance().getResource();
-            jedis.set(l_strBillId, l_strValue);
-            RedisUtil.getInstance().returnResource(jedis);
+            int l_iCharKey = l_strBillId.charAt(0) - 'a';
+            int l_iMod = l_iCharKey%3;
+            if (l_iMod == 1) {
+                Jedis jedis = RedisUtil.getInstance().getResource(1);
+                jedis.set(l_strBillId, l_strValue);
+                RedisUtil.getInstance().returnResource(jedis, 1);
+            } else if (l_iMod == 2) {
+                Jedis jedis = RedisUtil.getInstance().getResource(2);
+                jedis.set(l_strBillId, l_strValue);
+                RedisUtil.getInstance().returnResource(jedis, 2);
+            } else {
+                Jedis jedis = RedisUtil.getInstance().getResource(3);
+                jedis.set(l_strBillId, l_strValue);
+                RedisUtil.getInstance().returnResource(jedis, 3);
+            }
         }
     }
 
@@ -76,11 +90,62 @@ public class DataDealToRedis {
             String l_strTargetBillId = rs.getString("target_bill_id");
             String l_strQmd = rs.getString("qmd");
 
-            String l_strKey = l_strBillId + "|" + l_strTargetBillId;
+            String l_strKey = l_strBillId + "－" + l_strTargetBillId;
+            int l_iCharKey = l_strBillId.charAt(0) - 'a';
+            int l_iMod = l_iCharKey%3;
+            if (l_iMod == 1) {
+                Jedis jedis = RedisUtil.getInstance().getResource(1);
+                jedis.set(l_strKey, l_strQmd);
+                RedisUtil.getInstance().returnResource(jedis, 1);
+            } else if (l_iMod == 2) {
+                Jedis jedis = RedisUtil.getInstance().getResource(2);
+                jedis.set(l_strKey, l_strQmd);
+                RedisUtil.getInstance().returnResource(jedis, 2);
+            } else {
+                Jedis jedis = RedisUtil.getInstance().getResource(3);
+                jedis.set(l_strKey, l_strQmd);
+                RedisUtil.getInstance().returnResource(jedis, 3);
+            }
+        }
+    }
 
-            Jedis jedis = RedisUtil.getInstance().getResource();
-            jedis.set(l_strKey, l_strQmd);
-            RedisUtil.getInstance().returnResource(jedis);
+    //用户指数信入库
+    public  static void hlrToRedis () throws Exception{
+        String l_strHlrFile = "";
+        //读取全局配置文件内容
+        File l_file = new File(System.getProperty("user.home") + "/config/DataDeal.conf");
+        BufferedReader l_reader = null;
+
+        try {
+            l_reader = new BufferedReader(new FileReader(l_file));
+            String l_strtemp;
+            // 一次读入一行，直到读入null为文件结束
+            while ((l_strtemp = l_reader.readLine()) != null) {
+                if (l_strtemp.contains("hlrFile:")) {
+                    l_strHlrFile = l_strtemp.substring(8, l_strtemp.length());
+                    l_strHlrFile = l_strHlrFile.trim();
+                }
+            }
+            l_reader.close();
+
+            l_reader = new BufferedReader(new FileReader(l_strHlrFile));
+            // 一次读入一行，直到读入null为文件结束
+            while ((l_strtemp = l_reader.readLine()) != null) {
+                Jedis jedis = RedisUtil.getInstance().getResource(1);
+                jedis.set(l_strtemp, "");
+                RedisUtil.getInstance().returnResource(jedis, 1);
+            }
+            l_reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (l_reader != null) {
+                try {
+                    l_reader.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
     }
 }

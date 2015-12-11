@@ -16,9 +16,14 @@ public class DataDealToDB {
         try{
             //连接MySql数据库
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" ;
-            String username = "root" ;
-            String password = "" ;
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            //String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" ;
+            //String username = "root" ;
+            //String password = "" ;
+            Map<String, String> l_map = InitData.getDBUrl();
+            String url = l_map.get("url");
+            String username = l_map.get("username");
+            String password = l_map.get("password");
             g_conn = DriverManager.getConnection(url , username , password ) ;
         }catch(SQLException se){
             System.out.println("数据库连接失败！");
@@ -56,6 +61,7 @@ public class DataDealToDB {
             l_reader = new BufferedReader(new FileReader(l_file));
             String l_strtemp;
             String l_strValue;
+            int l_iCount = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
                 String[] l_strLines = l_strtemp.split(",");
@@ -65,24 +71,27 @@ public class DataDealToDB {
                 if (g_map.containsKey(l_strLines[1])) {
                     l_strValue = g_map.get(l_strLines[1]);
                 } else {
-                    l_strValue = "76%";
+                    l_strValue = "76";
                 }
 
                 l_stmt.setString(1, l_strLines[0]);
                 l_stmt.setString(2, l_strLines[1]);
                 l_stmt.setString(3, l_strValue);
                 l_stmt.executeUpdate();
+
+                l_iCount = l_iCount + 1;
+                if (10000 == l_iCount) {
+                    //g_conn.commit();
+                    l_iCount = 1;
+                }
             }
             l_reader.close();
 
-            if (l_stmt != null) {   // 关闭声明
-                try {
-                    l_stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            try {
+                l_stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
         } catch (IOException e){
             e.printStackTrace();
         } finally {
@@ -110,31 +119,37 @@ public class DataDealToDB {
         File l_file = new File(p_strFileName);
         BufferedReader l_reader = null;
 
-        String l_strSql = "insert into two_result (bill_id, target_bill_id, qmd) values (?, ?, ?)";
+        String l_strSql = "insert into two_result (bill_id, target_bill_id, qmd, db) values (?, ?, ?, ?)";
         PreparedStatement l_stmt = g_conn.prepareStatement(l_strSql);
 
         try {
             l_reader = new BufferedReader(new FileReader(l_file));
             String l_strtemp;
+            int l_iCount = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
                 String[] l_strLines = l_strtemp.split(",");
-                if (l_strLines.length < 3)
+                if (l_strLines.length < 4)
                     continue;
 
                 l_stmt.setString(1, l_strLines[0]);
                 l_stmt.setString(2, l_strLines[1]);
                 l_stmt.setString(3, l_strLines[2]);
+                l_stmt.setString(4, l_strLines[3]);
                 l_stmt.executeUpdate();
+
+                l_iCount = l_iCount + 1;
+                if (10000 == l_iCount) {
+                    //g_conn.commit();
+                    l_iCount = 1;
+                }
             }
             l_reader.close();
 
-            if (l_stmt != null) {   // 关闭声明
-                try {
-                    l_stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            try {
+                l_stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -173,6 +188,7 @@ public class DataDealToDB {
         try {
             l_reader = new BufferedReader(new FileReader(l_file));
             String l_strtemp;
+            int l_iCount = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
                 String[] l_strLines = l_strtemp.split(",");
@@ -214,6 +230,12 @@ public class DataDealToDB {
                     rs.close() ;
                 }catch(SQLException e){
                     e.printStackTrace() ;
+                }
+
+                l_iCount = l_iCount + 1;
+                if (10000 == l_iCount) {
+                    //g_conn.commit();
+                    l_iCount = 1;
                 }
             }
             l_reader.close();

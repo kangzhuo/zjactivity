@@ -66,14 +66,14 @@ public class DataDealForAverage {
     //处理单行用户间记录
     public  static void dealLineOne (String p_strLine) throws Exception{
         String[] l_strLines = p_strLine.split(",");
-        if (l_strLines.length < 13)
+        if (l_strLines.length < 12)
             return;
 
         g_llNum = g_llNum + 1;
 
-        g_llSumCS = g_llSumCS + Integer.parseInt(l_strLines[2]);
-        g_llSumSC = g_llSumSC + Integer.parseInt(l_strLines[5]);
-        g_llSumRS = g_llSumRS + Integer.parseInt(l_strLines[8]);
-        g_llSumSS = g_llSumSS + Integer.parseInt(l_strLines[11]) + Integer.parseInt(l_strLines[12])*2;
+        g_llSumCS = g_llSumCS + Integer.parseInt(l_strLines[1]);
+        g_llSumSC = g_llSumSC + Integer.parseInt(l_strLines[4]);
+        g_llSumRS = g_llSumRS + Integer.parseInt(l_strLines[7]);
+        g_llSumSS = g_llSumSS + Integer.parseInt(l_strLines[10]) + Integer.parseInt(l_strLines[11])*2;
     }
 }

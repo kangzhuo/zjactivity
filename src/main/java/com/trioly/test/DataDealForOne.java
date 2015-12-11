@@ -82,22 +82,22 @@ public class DataDealForOne {
 
         String[] l_strLines = p_strLine.split(",");
 
-        if (l_strLines.length < 13)
+        if (l_strLines.length < 12)
             return "";
 
         //移除主号码非浙江移动号码
-        if (11 != l_strLines[0].length()) {
+        if (32 != l_strLines[0].length()) {
             return "";
         }
-        if (!g_map.containsKey(l_strLines[0].substring(0,7))) {
-            return "";
-        }
+        //if (!g_map.containsKey(l_strLines[0].substring(0,7))) {
+        //    return "";
+        //}
 
         //转换数值
-        double l_llSumCS = Long.parseLong(l_strLines[2]);
-        double l_llSumSC = Long.parseLong(l_strLines[5]);
-        double l_llSumRS = Long.parseLong(l_strLines[8]);
-        double l_llSumSS = Long.parseLong(l_strLines[11]) + Long.parseLong(l_strLines[12])*2;
+        double l_llSumCS = Long.parseLong(l_strLines[1]);
+        double l_llSumSC = Long.parseLong(l_strLines[4]);
+        double l_llSumRS = Long.parseLong(l_strLines[7]);
+        double l_llSumSS = Long.parseLong(l_strLines[10]) + Long.parseLong(l_strLines[11])*2;
         double l_llAveCS = Long.parseLong(p_llAverCS);
         double l_llAveSC = Long.parseLong(p_llAverSC);
         double l_llAveRS = Long.parseLong(p_llAverRS);

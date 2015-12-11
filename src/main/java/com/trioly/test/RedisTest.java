@@ -8,8 +8,8 @@ import redis.clients.jedis.Jedis;
  */
 public class RedisTest {
     public static void main(String[] args) throws Exception{
-        Jedis jedis = RedisUtil.getInstance().getResource();
+        Jedis jedis = RedisUtil.getInstance().getResource(1);
         jedis.set("key","val");
-        RedisUtil.getInstance().returnResource(jedis);
+        RedisUtil.getInstance().returnResource(jedis,1);
     }
 }
