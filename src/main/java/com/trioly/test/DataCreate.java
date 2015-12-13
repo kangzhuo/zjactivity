@@ -1,9 +1,9 @@
 package com.trioly.test;
 
+import com.trioly.util.MD5Util;
+
 import java.io.*;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DataCreate {
     private static Connection g_conn;
@@ -25,8 +25,10 @@ public class DataCreate {
 
         if (l_strFileName.contains("1")) {
             dataInsert();
-        } else if(l_strFileName.contains("2")) {
+        } else if (l_strFileName.contains("2")) {
             md5Data();
+        } else if (l_strFileName.contains("3")) {
+            splitData();
         } else {
             makeData1();
         }
@@ -199,60 +201,78 @@ public class DataCreate {
     //用户指数信息入库
     public  static void md5Data () throws Exception{
         //读取文件内容
-        File l_file1 = new File("/Users/kangzhuo/config/initData1.txt");
-        File l_file2 = new File("/Users/kangzhuo/config/initData2.txt");
+        File l_file11 = new File("/Users/kangzhuo/config/initData1.txt");
+        File l_file21 = new File("/Users/kangzhuo/config/initData2.txt");
+        File l_file12 = new File("/Users/kangzhuo/config/initData1.txt.tmp");
+        File l_file22 = new File("/Users/kangzhuo/config/initData2.txt.tmp");
+        BufferedReader l_reader1 = null;
+        BufferedReader l_reader2 = null;
         BufferedWriter l_writer1 = null;
         BufferedWriter l_writer2 = null;
 
         try {
-            l_writer1 = new BufferedWriter(new FileWriter(l_file1));
-            l_writer2 = new BufferedWriter(new FileWriter(l_file2));
+            l_reader1 = new BufferedReader(new FileReader(l_file11));
+            l_writer1 = new BufferedWriter(new FileWriter(l_file12));
 
-            int l_i1 = 1;
-            int l_i2 = 2;
-            int l_i3 = 3;
-            int l_i4 = 4;
-            int l_i5 = 5;
+            int l_iNum = 0;
+            String l_strtemp;
+            while ((l_strtemp = l_reader1.readLine()) != null) {
+                String[] l_strLines = l_strtemp.split(",");
+                if (l_strLines.length < 13)
+                    continue;
 
-            String l_strSqlQry = "select * from sdk.data_inif_1";
-            PreparedStatement l_stmtQry = g_conn.prepareStatement(l_strSqlQry);
-            ResultSet rs = l_stmtQry.executeQuery();
-            while (rs.next()) {
-                String l_strBillId = rs.getString("bill_id");
-
-
-                l_writer1.write(l_strBillId + "," + l_strBillId + "," + l_i1 + ",0,0," + l_i2 + ",0,0," + l_i3 + ",0,0," + l_i4 + "," + l_i5 + "\n");
-                l_i1 = l_i1 + 1; if (l_i1 > 30) l_i1=1;
-                l_i2 = l_i2 + 1; if (l_i2 > 1000) {l_i2=1;l_writer1.flush();l_writer2.flush();}
-                l_i3 = l_i3 + 3; if (l_i3 > 100) l_i3=1;
-                l_i4 = l_i4 + 4; if (l_i4 > 100) l_i4=1;
-                l_i5 = l_i5 + 5; if (l_i5 > 100) l_i5=1;
-                System.out.println("----il2:" + l_i2);
-
-                l_strSqlQry = "select * from sdk.data_inif_1 limit 0,21";
-                PreparedStatement l_stmtQry2 = g_conn.prepareStatement(l_strSqlQry);
-                ResultSet rs2 = l_stmtQry2.executeQuery();
-                int l_iNum = 0;
-                while (rs2.next()) {
-                    String l_strTargetBillId = rs2.getString("bill_id");
-                    l_writer2.write(l_strBillId + "," + l_strTargetBillId + "," + l_i1 + "," + l_i2 + "," + l_i3 + "," + l_i4 + "\n");
-
-                    l_iNum = l_iNum + 1;
-                    if (l_iNum > 19)
-                        break;
+                if (l_strLines[0].contains("15158133570")
+                        || l_strLines[0].contains("15858222268")
+                        || l_strLines[0].contains("15958016310")
+                        || l_strLines[0].contains("18268152830")
+                        || l_strLines[0].contains("18858100583")) {
+                    continue;
                 }
-                rs2.close();
-                l_stmtQry2.close();
+
+                String l_strTmp = MD5Util.MD5(l_strLines[0]) + "," + l_strLines[2] + "," + l_strLines[3] + "," + l_strLines[4]
+                        + "," + l_strLines[5] + "," + l_strLines[6] + "," + l_strLines[7] + "," + l_strLines[8]
+                        + "," + l_strLines[9] + "," + l_strLines[10] + "," + l_strLines[11] + "," + l_strLines[12] + "\n";
+                l_writer1.write(l_strTmp);
+
+                l_iNum = l_iNum + 1;
+                if (10000 == l_iNum) {
+                    l_writer1.flush();
+                    l_iNum = 0;
+                }
             }
-            rs.close();
-            l_stmtQry.close();
 
             l_writer1.flush();
             l_writer1.close();
 
+            l_iNum = 0;
+            l_reader2 = new BufferedReader(new FileReader(l_file21));
+            l_writer2 = new BufferedWriter(new FileWriter(l_file22));
+            while ((l_strtemp = l_reader2.readLine()) != null) {
+                String[] l_strLines = l_strtemp.split(",");
+                if (l_strLines.length < 6)
+                    continue;
+
+                if (l_strLines[0].contains("15158133570")
+                        || l_strLines[0].contains("15858222268")
+                        || l_strLines[0].contains("15958016310")
+                        || l_strLines[0].contains("18268152830")
+                        || l_strLines[0].contains("18858100583")) {
+                    continue;
+                }
+
+                String l_strTmp = MD5Util.MD5(l_strLines[0]) + "," + MD5Util.MD5(l_strLines[1]) + "," + l_strLines[2] + "," + l_strLines[3]
+                        + "," + l_strLines[4] + "," + l_strLines[5] + "\n";
+                l_writer2.write(l_strTmp);
+
+                l_iNum = l_iNum + 1;
+                if (10000 == l_iNum) {
+                    l_writer2.flush();
+                    l_iNum = 0;
+                }
+            }
+
             l_writer2.flush();
             l_writer2.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -267,6 +287,55 @@ public class DataCreate {
             if (l_writer2 != null) {
                 try {
                     l_writer2.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //用户指数信息入库
+    public  static void splitData () throws Exception{
+        //读取文件内容
+        File l_file11 = new File("/Users/kangzhuo/config/initData1.txt");
+        File l_file21 = new File("/Users/kangzhuo/config/initData2.txt");
+        File l_file12 = new File("/Users/kangzhuo/config/initData1.txt.tmp");
+        File l_file22 = new File("/Users/kangzhuo/config/initData2.txt.tmp");
+        BufferedReader l_reader1 = null;
+        BufferedWriter l_writer1 = null;
+
+        try {
+            l_reader1 = new BufferedReader(new FileReader(l_file11));
+            l_writer1 = new BufferedWriter(new FileWriter(l_file12));
+
+            int l_iNum = 0;
+            String l_strtemp;
+            while ((l_strtemp = l_reader1.readLine()) != null) {
+                String[] l_strLines = l_strtemp.split(",");
+                if (l_strLines.length < 11)
+                    continue;
+
+                String l_strTmp = l_strLines[0] + "," + l_strLines[1] + "," + l_strLines[2] + "," + l_strLines[3].substring(0,1)
+                        + "," + l_strLines[3].substring(1,l_strLines[3].length()) + "," + l_strLines[4] + "," + l_strLines[5]
+                        + "," + l_strLines[6] + "," + l_strLines[7] + "," + l_strLines[8] + "," + l_strLines[9]
+                        + "," + l_strLines[10] + "\n";
+                l_writer1.write(l_strTmp);
+
+                l_iNum = l_iNum + 1;
+                if (10000 == l_iNum) {
+                    l_writer1.flush();
+                    l_iNum = 0;
+                }
+            }
+
+            l_writer1.flush();
+            l_writer1.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (l_writer1 != null) {
+                try {
+                    l_writer1.close();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

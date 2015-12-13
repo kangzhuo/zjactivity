@@ -12,7 +12,6 @@ public class InitData {
     private static String g_strKey = "trioly.crypt.key";
 
     public static Map<String, String> initMap() throws Exception {
-
         String l_strHlrFile = "";
         Map<String, String> l_map = new HashMap<String, String>();
         //读取全局配置文件内容
