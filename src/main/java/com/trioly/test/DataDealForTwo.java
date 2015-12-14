@@ -110,9 +110,9 @@ public class DataDealForTwo {
         //}
 
         //2个号码间重复记录只保留一个
-        //if (0 < l_strLines[0].compareTo(l_strLines[1])) {
-        //    return "";
-        //}
+        if (0 < l_strLines[0].compareTo(l_strLines[1])) {
+            return "";
+        }
 
         //手机号码加密
         //l_str1 = token(l_strLines[0]);

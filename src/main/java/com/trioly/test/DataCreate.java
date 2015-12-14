@@ -1,9 +1,12 @@
 package com.trioly.test;
 
 import com.trioly.util.MD5Util;
+import com.trioly.util.RedisUtil;
+import redis.clients.jedis.Jedis;
 
 import java.io.*;
 import java.sql.*;
+import java.util.*;
 
 public class DataCreate {
     private static Connection g_conn;
@@ -14,9 +17,14 @@ public class DataCreate {
         try{
             //连接MySql数据库
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" ;
-            String username = "root" ;
-            String password = "" ;
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            //String url = "jdbc:mysql://localhost:3306/sdk?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" ;
+            //String username = "root" ;
+            //String password = "" ;
+            Map<String, String> l_map = InitData.getDBUrl();
+            String url = l_map.get("url");
+            String username = l_map.get("username");
+            String password = l_map.get("password");
             g_conn = DriverManager.getConnection(url , username , password ) ;
         }catch(SQLException se){
             System.out.println("数据库连接失败！");
@@ -29,6 +37,8 @@ public class DataCreate {
             md5Data();
         } else if (l_strFileName.contains("3")) {
             splitData();
+        } else if (l_strFileName.contains("4")) {
+            delData();
         } else {
             makeData1();
         }
@@ -341,5 +351,37 @@ public class DataCreate {
                 }
             }
         }
+    }
+
+    //用户指数信息入库
+    public  static void delData () throws Exception{
+        Jedis jedis = RedisUtil.getInstance().getResource(1);
+        Set l_sKey = jedis.keys("*");
+        Iterator iter = l_sKey.iterator();
+
+        while (iter.hasNext()) {
+            String l_strKey = (String) iter.next();
+
+            if (32 == l_strKey.length()) {
+                //用户信息
+                for (int i = 0; i < 32; i++) {
+                    if (Character.isUpperCase(l_strKey.charAt(i))) {
+                        jedis.del(l_strKey);
+                        break;
+                    }
+                }
+
+            } else if (65 == l_strKey.length() && l_strKey.contains("-")) {
+                //用户间信息
+                for (int i = 0; i < 65; i++) {
+                    if (Character.isUpperCase(l_strKey.charAt(i))) {
+                        jedis.del(l_strKey);
+                        break;
+                    }
+                }
+            }
+        }
+
+        RedisUtil.getInstance().returnResource(jedis, 1);
     }
 }
