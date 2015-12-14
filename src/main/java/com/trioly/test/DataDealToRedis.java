@@ -49,7 +49,7 @@ public class DataDealToRedis {
                 }
 
                 l_strValueInRedis = l_strLines[1] + "|" + l_strValue + "|0|0|0|0|0";
-                int l_iCharKey = l_strLines[0].charAt(0) - 'a';
+                int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
                 if (l_iMod == 1) {
                     Jedis jedis = RedisUtil.getInstance().getResource(1);
@@ -98,7 +98,7 @@ public class DataDealToRedis {
                 l_strKeyInRedis = l_strLines[0] + "-" + l_strLines[1];
                 l_strValueInRedis = l_strLines[2] + "|" + l_strLines[3];
 
-                int l_iCharKey = l_strLines[0].charAt(0) - 'a';
+                int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
                 if (l_iMod == 1) {
                     Jedis jedis = RedisUtil.getInstance().getResource(1);
@@ -144,7 +144,7 @@ public class DataDealToRedis {
                 if (l_strLines.length < 6)
                     continue;
 
-                int l_iCharKey = l_strLines[0].charAt(0) - 'a';
+                int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
                 if (l_iMod == 1) {
                     Jedis jedis = RedisUtil.getInstance().getResource(1);
@@ -295,7 +295,7 @@ public class DataDealToRedis {
             String l_strFive = rs.getString("five");
 
             String l_strValue = l_strRmzs + "|" + l_strPm + "|" + l_strOne + "|" + l_strTwo + "|" + l_strThree + "|" + l_strFour + "|" + l_strFive;
-            int l_iCharKey = l_strBillId.charAt(0) - 'a';
+            int l_iCharKey = l_strBillId.charAt(0) - '0';
             int l_iMod = l_iCharKey%3;
             if (l_iMod == 1) {
                 Jedis jedis = RedisUtil.getInstance().getResource(1);
@@ -326,7 +326,7 @@ public class DataDealToRedis {
             String l_strQmd = rs.getString("qmd");
 
             String l_strKey = l_strBillId + "－" + l_strTargetBillId;
-            int l_iCharKey = l_strBillId.charAt(0) - 'a';
+            int l_iCharKey = l_strBillId.charAt(0) - '0';
             int l_iMod = l_iCharKey%3;
             if (l_iMod == 1) {
                 Jedis jedis = RedisUtil.getInstance().getResource(1);
