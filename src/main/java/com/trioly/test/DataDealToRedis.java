@@ -3,9 +3,11 @@ package com.trioly.test;
 import java.io.*;
 import java.util.Map;
 
+import com.trioly.util.RedisClusterUtil;
 import redis.clients.jedis.Jedis;
 
 import com.trioly.util.RedisUtil;
+import redis.clients.jedis.JedisCluster;
 
 public class DataDealToRedis {
     private static Map<String, String> g_map;
@@ -49,6 +51,7 @@ public class DataDealToRedis {
                 }
 
                 l_strValueInRedis = l_strLines[1] + "|" + l_strValue + "|0|0|0|0|0";
+                /*
                 int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
                 if (l_iMod == 1) {
@@ -63,7 +66,9 @@ public class DataDealToRedis {
                     Jedis jedis = RedisUtil.getInstance().getResource(3);
                     jedis.set(l_strLines[0], l_strValueInRedis);
                     RedisUtil.getInstance().returnResource(jedis, 3);
-                }
+                }*/
+                JedisCluster jc = RedisClusterUtil.getInstance().getResource();
+                jc.set(l_strLines[0], l_strValueInRedis);
             }
             l_reader.close();
         } catch (IOException e){
@@ -98,6 +103,7 @@ public class DataDealToRedis {
                 l_strKeyInRedis = l_strLines[0] + "-" + l_strLines[1];
                 l_strValueInRedis = l_strLines[2] + "|" + l_strLines[3];
 
+                /*
                 int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
                 if (l_iMod == 1) {
@@ -112,7 +118,9 @@ public class DataDealToRedis {
                     Jedis jedis = RedisUtil.getInstance().getResource(3);
                     jedis.set(l_strKeyInRedis, l_strValueInRedis);
                     RedisUtil.getInstance().returnResource(jedis, 3);
-                }
+                }*/
+                JedisCluster jc = RedisClusterUtil.getInstance().getResource();
+                jc.set(l_strKeyInRedis, l_strValueInRedis);
             }
             l_reader.close();
         } catch (IOException e) {
@@ -144,6 +152,7 @@ public class DataDealToRedis {
                 if (l_strLines.length < 6)
                     continue;
 
+                /*
                 int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
                 if (l_iMod == 1) {
@@ -158,7 +167,9 @@ public class DataDealToRedis {
                     Jedis jedis = RedisUtil.getInstance().getResource(3);
                     l_strValueInRedis = jedis.get(l_strLines[0]);
                     RedisUtil.getInstance().returnResource(jedis, 3);
-                }
+                }*/
+                JedisCluster jc = RedisClusterUtil.getInstance().getResource();
+                l_strValueInRedis = jc.get(l_strLines[0]);
 
                 String[] l_strValueLines = l_strValueInRedis.split("\\|");
                 if (l_strValueLines.length < 7)
@@ -173,6 +184,7 @@ public class DataDealToRedis {
                 l_strValueInRedis = l_strValueLines[0] + "|" + l_strValueLines[1] + "|" + l_iOne + "|" + l_iTwo +
                         "|" + l_iThree + "|" + l_iFour + "|" + l_iFive;
 
+                /*
                 if (l_iMod == 1) {
                     Jedis jedis = RedisUtil.getInstance().getResource(1);
                     jedis.set(l_strLines[0], l_strValueInRedis);
@@ -185,7 +197,8 @@ public class DataDealToRedis {
                     Jedis jedis = RedisUtil.getInstance().getResource(3);
                     jedis.set(l_strLines[0], l_strValueInRedis);
                     RedisUtil.getInstance().returnResource(jedis, 3);
-                }
+                }*/
+                jc.set(l_strLines[0], l_strValueInRedis);
             }
             l_reader.close();
         } catch (IOException e) {
@@ -223,9 +236,11 @@ public class DataDealToRedis {
             l_reader = new BufferedReader(new FileReader(l_strHlrFile));
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
-                Jedis jedis = RedisUtil.getInstance().getResource(1);
-                jedis.set(l_strtemp, "");
-                RedisUtil.getInstance().returnResource(jedis, 1);
+                //Jedis jedis = RedisUtil.getInstance().getResource(1);
+                //jedis.set(l_strtemp, "");
+                //RedisUtil.getInstance().returnResource(jedis, 1);
+                JedisCluster jc = RedisClusterUtil.getInstance().getResource();
+                jc.set(l_strtemp, "");
             }
             l_reader.close();
         } catch (IOException e) {

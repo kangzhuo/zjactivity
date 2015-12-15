@@ -14,6 +14,7 @@ public class DataCreate {
     public static void main(String[] args) throws Exception{
         String l_strFileName = args[0];
 
+
         try{
             //连接MySql数据库
             Class.forName("com.mysql.jdbc.Driver");
@@ -25,7 +26,7 @@ public class DataCreate {
             String url = l_map.get("url");
             String username = l_map.get("username");
             String password = l_map.get("password");
-            g_conn = DriverManager.getConnection(url , username , password ) ;
+            //g_conn = DriverManager.getConnection(url , username , password ) ;
         }catch(SQLException se){
             System.out.println("数据库连接失败！");
             se.printStackTrace() ;
