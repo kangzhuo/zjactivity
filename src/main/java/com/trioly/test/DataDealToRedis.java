@@ -4,9 +4,6 @@ import java.io.*;
 import java.util.Map;
 
 import com.trioly.util.RedisClusterUtil;
-import redis.clients.jedis.Jedis;
-
-import com.trioly.util.RedisUtil;
 import redis.clients.jedis.JedisCluster;
 
 public class DataDealToRedis {
@@ -34,15 +31,28 @@ public class DataDealToRedis {
         File l_file = new File(p_strFileName);
         BufferedReader l_reader = null;
 
+        String l_strLogFile = p_strFileName + ".curr";
+        String l_strFinish = getFinishData(l_strLogFile);
+
         try {
             l_reader = new BufferedReader(new FileReader(l_file));
             String l_strtemp;
             String l_strValue, l_strValueInRedis;
+            int i = 0, j = 0, l_iFlag = 0;
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
                 String[] l_strLines = l_strtemp.split(",");
                 if (l_strLines.length < 2)
                     continue;
+
+                if (l_strFinish.length() > 0) {
+                    if (l_strFinish.contains(l_strLines[0])) {
+                        l_iFlag = 1;
+                    }
+                    if (0 == l_iFlag) {
+                        continue;
+                    }
+                }
 
                 if (g_map.containsKey(l_strLines[1])) {
                     l_strValue = g_map.get(l_strLines[1]);
@@ -51,6 +61,7 @@ public class DataDealToRedis {
                 }
 
                 l_strValueInRedis = l_strLines[1] + "|" + l_strValue + "|0|0|0|0|0";
+
                 /*
                 int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
@@ -69,6 +80,30 @@ public class DataDealToRedis {
                 }*/
                 JedisCluster jc = RedisClusterUtil.getInstance().getResource();
                 jc.set(l_strLines[0], l_strValueInRedis);
+
+                i++;j++;
+                if (100000 == i) {
+                    File l_fileLog = new File(l_strLogFile);
+                    BufferedWriter l_writer = null;
+
+                    try {
+                        l_writer = new BufferedWriter(new FileWriter(l_fileLog));
+                        l_writer.write(l_strLines[0] + "|" + j + "\n");
+                        l_writer.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (l_writer != null) {
+                            try {
+                                l_writer.close();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+
+                    i = 0;
+                }
             }
             l_reader.close();
         } catch (IOException e){
@@ -90,10 +125,14 @@ public class DataDealToRedis {
         File l_file = new File(p_strFileName);
         BufferedReader l_reader = null;
 
+        String l_strLogFile = p_strFileName + ".curr";
+        String l_strFinish = getFinishData(l_strLogFile);
+
         try {
             l_reader = new BufferedReader(new FileReader(l_file));
             String l_strtemp;
             String l_strKeyInRedis,l_strValueInRedis;
+            int i = 0, j = 0, l_iFlag = 0;
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
                 String[] l_strLines = l_strtemp.split(",");
@@ -102,6 +141,15 @@ public class DataDealToRedis {
 
                 l_strKeyInRedis = l_strLines[0] + "-" + l_strLines[1];
                 l_strValueInRedis = l_strLines[2] + "|" + l_strLines[3];
+
+                if (l_strFinish.length() > 0) {
+                    if (l_strFinish.contains(l_strKeyInRedis)) {
+                        l_iFlag = 1;
+                    }
+                    if (0 == l_iFlag) {
+                        continue;
+                    }
+                }
 
                 /*
                 int l_iCharKey = l_strLines[0].charAt(0) - '0';
@@ -121,6 +169,30 @@ public class DataDealToRedis {
                 }*/
                 JedisCluster jc = RedisClusterUtil.getInstance().getResource();
                 jc.set(l_strKeyInRedis, l_strValueInRedis);
+
+                i++;j++;
+                if (100000 == i) {
+                    File l_fileLog = new File(l_strLogFile);
+                    BufferedWriter l_writer = null;
+
+                    try {
+                        l_writer = new BufferedWriter(new FileWriter(l_fileLog));
+                        l_writer.write(l_strKeyInRedis + "|" + j + "\n");
+                        l_writer.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (l_writer != null) {
+                            try {
+                                l_writer.close();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+
+                    i = 0;
+                }
             }
             l_reader.close();
         } catch (IOException e) {
@@ -142,16 +214,28 @@ public class DataDealToRedis {
         File l_file = new File(p_strFileName);
         BufferedReader l_reader = null;
 
+        String l_strLogFile = p_strFileName + ".curr";
+        String l_strFinish = getFinishData(l_strLogFile);
+
         try {
             l_reader = new BufferedReader(new FileReader(l_file));
             String l_strtemp;
             String l_strValueInRedis;
+            int i = 0, j = 0, l_iFlag = 0;
             // 一次读入一行，直到读入null为文件结束
             while ((l_strtemp = l_reader.readLine()) != null) {
                 String[] l_strLines = l_strtemp.split(",");
                 if (l_strLines.length < 6)
                     continue;
 
+                if (l_strFinish.length() > 0) {
+                    if (l_strFinish.contains(l_strLines[0])) {
+                        l_iFlag = 1;
+                    }
+                    if (0 == l_iFlag) {
+                        continue;
+                    }
+                }
                 /*
                 int l_iCharKey = l_strLines[0].charAt(0) - '0';
                 int l_iMod = l_iCharKey%3;
@@ -199,6 +283,30 @@ public class DataDealToRedis {
                     RedisUtil.getInstance().returnResource(jedis, 3);
                 }*/
                 jc.set(l_strLines[0], l_strValueInRedis);
+
+                i++;j++;
+                if (100000 == i) {
+                    File l_fileLog = new File(l_strLogFile);
+                    BufferedWriter l_writer = null;
+
+                    try {
+                        l_writer = new BufferedWriter(new FileWriter(l_fileLog));
+                        l_writer.write(l_strLines[0] + "|" + j + "\n");
+                        l_writer.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (l_writer != null) {
+                            try {
+                                l_writer.close();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+
+                    i = 0;
+                }
             }
             l_reader.close();
         } catch (IOException e) {
@@ -254,6 +362,39 @@ public class DataDealToRedis {
                 }
             }
         }
+    }
+
+    //获取最后入库信息
+    public  static String getFinishData (String p_strLogFile) throws Exception {
+        File l_file = new File(p_strLogFile);
+        BufferedReader l_reader = null;
+
+        String l_strtemp, l_strReturn = "";
+
+        try {
+            l_reader = new BufferedReader(new FileReader(l_file));
+            // 一次读入一行，直到读入null为文件结束
+            while ((l_strtemp = l_reader.readLine()) != null) {
+                String[] l_strLines = l_strtemp.split("\\|");
+                if (l_strLines.length > 1) {
+                    l_strReturn = l_strLines[0];
+                }
+            }
+            l_reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return l_strReturn;
+        } finally {
+            if (l_reader != null) {
+                try {
+                    l_reader.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        return l_strReturn;
     }
 
     /*

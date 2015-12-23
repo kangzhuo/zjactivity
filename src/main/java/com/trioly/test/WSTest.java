@@ -19,8 +19,8 @@ public class WSTest {
     public static void sendSms() throws Exception {
         //String l_strBillId = "18858100583";//qq号码
         //String l_strCode = "123456";//qq号码
-        String urlString = "http://10.70.181.7:8080/MSP/services/MSPWebService";
-        //String xml = WSTest.class.getClassLoader().getResource("/SendInstantSms.xml").getFile();
+        String urlString = "http://smsinfo.yw.zj.chinamobile.com:8080/MSP/services/MSPWebService";
+        //String xml = WSTest.class.getClassLoader().getResource("/SendIn   stantSms.xml").getFile();
         //String xml = Resources.getResourceAsFile("SendInstantSms.xml").getPath();
         //String xmlFileTmp=replace(xml, "$BILLID", l_strBillId).getPath();
         //String xmlFile=replace(xmlFileTmp, "$CODE", l_strCode).getPath();
@@ -38,13 +38,13 @@ public class WSTest {
                 "            <ns1:content xmlns:ns1=\"http://domain.server.mmap.msp.huawei.com\">CODE~123456</ns1:content>\n" +
                 "            <ns2:mediaType xmlns:ns2=\"http://domain.server.mmap.msp.huawei.com\">1014001</ns2:mediaType>\n" +
                 "            <ns3:receiverInfo xmlns:ns3=\"http://domain.server.mmap.msp.huawei.com\">18858100583</ns3:receiverInfo>\n" +
-                "            <ns4:reserve21 xmlns:ns4=\"http://domain.server.mmap.msp.huawei.com\">0009</ns4:reserve21>             \n" +
-                "            <ns5:reserve22 xmlns:ns5=\"http://domain.server.mmap.msp.huawei.com\">ESOP</ns5:reserve22>             \n" +
-                "            <ns6:reserve23 xmlns:ns6=\"http://domain.server.mmap.msp.huawei.com\">0009001</ns6:reserve23>          \n" +
-                "            <ns7:reserve24 xmlns:ns7=\"http://domain.server.mmap.msp.huawei.com\">业务提醒类</ns7:reserve24>       \n" +
+                "            <ns4:reserve21 xmlns:ns4=\"http://domain.server.mmap.msp.huawei.com\">0008</ns4:reserve21>             \n" +
+                "            <ns5:reserve22 xmlns:ns5=\"http://domain.server.mmap.msp.huawei.com\">电子渠道</ns5:reserve22>             \n" +
+                "            <ns6:reserve23 xmlns:ns6=\"http://domain.server.mmap.msp.huawei.com\">0008006</ns6:reserve23>          \n" +
+                "            <ns7:reserve24 xmlns:ns7=\"http://domain.server.mmap.msp.huawei.com\">临时密码类</ns7:reserve24>       \n" +
                 "            <ns8:reserve25 xmlns:ns8=\"http://domain.server.mmap.msp.huawei.com\">1449454994539</ns8:reserve25>    \n" +
-                "            <ns9:schduleTime xmlns:ns9=\"http://domain.server.mmap.msp.huawei.com\">2015-11-09T12:44:16.937Z</ns9:schduleTime>\n" +
-                "            <ns10:sendNo xmlns:ns10=\"http://domain.server.mmap.msp.huawei.com\">10086009</ns10:sendNo>\n" +
+                "            <ns9:schduleTime xmlns:ns9=\"http://domain.server.mmap.msp.huawei.com\">2015-12-23T11:10:16.937Z</ns9:schduleTime>\n" +
+                "            <ns10:sendNo xmlns:ns10=\"http://domain.server.mmap.msp.huawei.com\">10086</ns10:sendNo>\n" +
                 "         </in0>\n" +
                 "      </addTask>\n" +
                 "   </soapenv:Body>\n" +

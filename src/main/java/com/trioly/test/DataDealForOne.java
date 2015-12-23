@@ -80,7 +80,7 @@ public class DataDealForOne {
         String l_str1;
         String l_str2;
 
-        String[] l_strLines = p_strLine.split(",");
+        String[] l_strLines = p_strLine.split(String.valueOf('\001'));
 
         if (l_strLines.length < 12)
             return "";

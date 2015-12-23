@@ -14,7 +14,7 @@ public class DataCreate {
     public static void main(String[] args) throws Exception{
         String l_strFileName = args[0];
 
-
+        /*
         try{
             //连接MySql数据库
             Class.forName("com.mysql.jdbc.Driver");
@@ -31,6 +31,7 @@ public class DataCreate {
             System.out.println("数据库连接失败！");
             se.printStackTrace() ;
         }
+        */
 
         if (l_strFileName.contains("1")) {
             dataInsert();
@@ -355,7 +356,7 @@ public class DataCreate {
     }
 
     //用户指数信息入库
-    public  static void delData () throws Exception{
+    public  static void delData1 () throws Exception{
         Jedis jedis = RedisUtil.getInstance().getResource(1);
         Set l_sKey = jedis.keys("*");
         Iterator iter = l_sKey.iterator();
@@ -384,5 +385,37 @@ public class DataCreate {
         }
 
         RedisUtil.getInstance().returnResource(jedis, 1);
+    }
+
+    //用户指数信息入库
+    public  static void delData () throws Exception{
+        //读取文件内容
+        File l_file = new File("/data/1.t");
+        BufferedReader l_reader = null;
+
+        try {
+            l_reader = new BufferedReader(new FileReader(l_file));
+            String l_strtemp;
+            // 一次读入一行，直到读入null为文件结束
+            while ((l_strtemp = l_reader.readLine()) != null) {
+                char c[] = l_strtemp.toCharArray() ;
+                for(int i=0;i<c.length;i++) {
+                    System.out.println("-----------" + c[i]) ;
+                    byte l_byte = (byte) (c[i] & 0xFF);
+                    System.out.println("-----------" + l_byte) ;
+                }
+            }
+            l_reader.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            if (l_reader != null) {
+                try {
+                    l_reader.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 }

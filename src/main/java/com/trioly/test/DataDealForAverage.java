@@ -65,7 +65,7 @@ public class DataDealForAverage {
 
     //处理单行用户间记录
     public  static void dealLineOne (String p_strLine) throws Exception{
-        String[] l_strLines = p_strLine.split(",");
+        String[] l_strLines = p_strLine.split(String.valueOf('\001'));
         if (l_strLines.length < 12)
             return;
 

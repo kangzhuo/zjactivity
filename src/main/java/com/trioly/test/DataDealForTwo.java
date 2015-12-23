@@ -77,7 +77,7 @@ public class DataDealForTwo {
         String l_str2;
         String l_str3;
 
-        String[] l_strLines = p_strLine.split(",");
+        String[] l_strLines = p_strLine.split(String.valueOf('\001'));
 
         if (l_strLines.length < 6)
             return "";
@@ -97,7 +97,7 @@ public class DataDealForTwo {
         sumRelationNum(l_strLines[0], l_iTmp);
 
         //用户间默认为一星，所以一星用户不需要存储
-        if (l_iTmp < 5) {
+        if (l_iTmp < 2) {
             return "";
         }
 
@@ -123,13 +123,13 @@ public class DataDealForTwo {
         l_str2 = l_strLines[1];
 
         //亲密度
-        if (l_iTmp < 5)
+        if (l_iTmp < 2)
             l_str3 = "1";
-        else if (l_iTmp < 20)
+        else if (l_iTmp < 5)
             l_str3 = "2";
-        else if (l_iTmp < 40)
+        else if (l_iTmp < 10)
             l_str3 = "3";
-        else if (l_iTmp < 60)
+        else if (l_iTmp < 30)
             l_str3 = "4";
         else
             l_str3 = "5";
@@ -160,13 +160,13 @@ public class DataDealForTwo {
             l_i4 = Integer.parseInt(l_strNums[3]);
             l_i5 = Integer.parseInt(l_strNums[4]);
 
-            if (p_iRelationNum < 5)
+            if (p_iRelationNum < 2)
                 l_i1 = l_i1 + 1;
-            else if (p_iRelationNum < 20)
+            else if (p_iRelationNum < 5)
                 l_i2 = l_i2 + 1;
-            else if (p_iRelationNum < 40)
+            else if (p_iRelationNum < 10)
                 l_i3 = l_i3 + 1;
-            else if (p_iRelationNum < 60)
+            else if (p_iRelationNum < 30)
                 l_i4 = l_i4 + 1;
             else
                 l_i5 = l_i5 + 1;
@@ -179,13 +179,13 @@ public class DataDealForTwo {
             l_i4 = 0;
             l_i5 = 0;
 
-            if (p_iRelationNum < 5)
+            if (p_iRelationNum < 2)
                 l_i1 = l_i1 + 1;
-            else if (p_iRelationNum < 20)
+            else if (p_iRelationNum < 5)
                 l_i2 = l_i2 + 1;
-            else if (p_iRelationNum < 40)
+            else if (p_iRelationNum < 10)
                 l_i3 = l_i3 + 1;
-            else if (p_iRelationNum < 60)
+            else if (p_iRelationNum < 30)
                 l_i4 = l_i4 + 1;
             else
                 l_i5 = l_i5 + 1;
