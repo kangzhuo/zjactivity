@@ -42,8 +42,8 @@ public class WSTest {
                 "            <ns5:reserve22 xmlns:ns5=\"http://domain.server.mmap.msp.huawei.com\">电子渠道</ns5:reserve22>             \n" +
                 "            <ns6:reserve23 xmlns:ns6=\"http://domain.server.mmap.msp.huawei.com\">0008006</ns6:reserve23>          \n" +
                 "            <ns7:reserve24 xmlns:ns7=\"http://domain.server.mmap.msp.huawei.com\">临时密码类</ns7:reserve24>       \n" +
-                "            <ns8:reserve25 xmlns:ns8=\"http://domain.server.mmap.msp.huawei.com\">1449454994539</ns8:reserve25>    \n" +
-                "            <ns9:schduleTime xmlns:ns9=\"http://domain.server.mmap.msp.huawei.com\">2015-12-23T11:10:16.937Z</ns9:schduleTime>\n" +
+                "            <ns8:reserve25 xmlns:ns8=\"http://domain.server.mmap.msp.huawei.com\">1449731827701</ns8:reserve25>    \n" +
+                "            <ns9:schduleTime xmlns:ns9=\"http://domain.server.mmap.msp.huawei.com\">2015-12-24T00:10:16.001Z</ns9:schduleTime>\n" +
                 "            <ns10:sendNo xmlns:ns10=\"http://domain.server.mmap.msp.huawei.com\">10086</ns10:sendNo>\n" +
                 "         </in0>\n" +
                 "      </addTask>\n" +
