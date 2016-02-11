@@ -1,6 +1,6 @@
 package com.trioly.test;
 
-import com.td.sms.web.util.SocketClientUtil;
+import com.trioly.util.SocketClientUtil;
 
 import java.net.Socket;
 
