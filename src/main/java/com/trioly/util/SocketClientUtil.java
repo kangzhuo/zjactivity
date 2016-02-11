@@ -1,6 +1,6 @@
 package com.trioly.util;
 
-import com.td.sms.web.config.CommonConfig;
+import com.trioly.config.CommonConfig;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -62,9 +62,9 @@ public class SocketClientUtil {
 
 
 
-    private ConcurrentHashMap<Socket, Integer> g_mapsocketStatus = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<Socket, Long> g_mapsocketTime = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<Socket, String> g_mapsocketMsg = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Socket, Integer> g_mapsocketStatus = new ConcurrentHashMap();
+    private ConcurrentHashMap<Socket, Long> g_mapsocketTime = new ConcurrentHashMap();
+    private ConcurrentHashMap<Socket, String> g_mapsocketMsg = new ConcurrentHashMap();
 
     public int connect() {
         if (g_mapsocketStatus.size() >= g_iConnNum) {
